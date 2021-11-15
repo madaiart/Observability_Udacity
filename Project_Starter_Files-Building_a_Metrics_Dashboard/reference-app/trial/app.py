@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, jsonify, json, render_template, request, url_for, redirect, flash
 
 from jaeger_client import Config
 from jaeger_client.metrics.prometheus import PrometheusMetricsFactory
@@ -13,15 +13,24 @@ from opentelemetry.sdk.trace.export import (
     ConsoleSpanExporter,
     SimpleExportSpanProcessor,
 )
+from prometheus_flask_exporter import PrometheusMetrics
+import logging
 
 trace.set_tracer_provider(TracerProvider())
 trace.get_tracer_provider().add_span_processor(
     SimpleExportSpanProcessor(ConsoleSpanExporter())
 )
 
+logging.info("Setting LOGLEVEL to INFO")
+logging.basicConfig(level=logging.INFO)
+
+# Server configuration
 app = Flask(__name__)
 FlaskInstrumentor().instrument_app(app)
 RequestsInstrumentor().instrument()
+
+metrics = PrometheusMetrics(app)
+metrics.info("app_info", "App Info, this can be anything you want", version="1.0.0")
 
 
 #config = Config(
@@ -52,6 +61,7 @@ def init_tracer(service):
 
 tracer = init_tracer('first-service')
 
+# Home route
 @app.route('/')
 def homepage():
     return render_template("main.html")
@@ -68,6 +78,16 @@ def homepage():
 
 
     return jsonify(homepages)
+# Health endpoint status
+@app.route('/healthz')
+def healthcheck():
+    response = app.response_class(
+            response=json.dumps({"result":"OK - healthy"}),
+            status=200,
+            mimetype='application/json'
+        )
+    return response
+
 
 if __name__ == "__main__":
-    app.run(debug=True,)
+    app.run(debug=True)
