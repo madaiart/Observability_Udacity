@@ -59,3 +59,4 @@ node_boot_time_seconds{container="node-exporter", endpoint="metrics", instance="
 
 time() - node_boot_time_seconds{job="node-exporter", instance=~"10.0.2.15:9100"}
 
+
