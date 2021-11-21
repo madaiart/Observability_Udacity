@@ -53,33 +53,50 @@ The SLIs should be:
 
 ![Updating the Flask App](answer-img/5.%20Flask.png)
 
+![Jaeger dashboard](answer-img/5.1%20Jaeger.png)
 
 ## Jaeger in Dashboards
 *TODO:* Now that the trace is running, let's add the metric to our current Grafana dashboard. Once this is completed, provide a screenshot of it here.
+ ![Jaeger in Grafana](answer-img/6.%20Jaeger%20image.png)
 
 ## Report Error
 *TODO:* Using the template below, write a trouble ticket for the developers, to explain the errors that you are seeing (400, 500, latency) and to let them know the file that is causing the issue.
 
 TROUBLE TICKET
 
-Name:
+Name: Madai Arteaga
 
-Date:
+Date: 20/11/2021
 
-Subject:
+Subject: [Error on trial] - Front end and backend
 
-Affected Area:
+Affected Area: Trial workflow
 
-Severity:
+Severity: High
 
-Description:
+Description: In the frontend, the secondbutton restuls in status 500
 
 
 ## Creating SLIs and SLOs
 *TODO:* We want to create an SLO guaranteeing that our application has a 99.95% uptime per month. Name three SLIs that you would use to measure the success of this SLO.
 
+* Uptime of all services should be greather than 98%
+* HTTP status code should be 20x for more than 99.9% of the transactions.
+* Average response time to HTTP request be less than 500ms.
+
 ## Building KPIs for our plan
 *TODO*: Now that we have our SLIs and SLOs, create KPIs to accurately measure these metrics. We will make a dashboard for this, but first write them down here.
 
+* The services (frontend, backend, and trial) should be grather than 98%.
+* The average response time of HTTP request should be less than 500ms.
+* Percentage of cpu usage less than 70% in core average.
+* Percentage of memory usage less tahn 70%.
+* Number of HTTP response error 50x should be less than 1%
+
 ## Final Dashboard
 *TODO*: Create a Dashboard containing graphs that capture all the metrics of your KPIs and adequately representing your SLIs and SLOs. Include a screenshot of the dashboard here, and write a text description of what graphs are represented in the dashboard.  
+
+* cpu
+* memory
+* service uptime
+* Jaeger api tracing
