@@ -86,7 +86,7 @@ kubectl apply -f app/
 
 ## Creating Jaeger 
 After verify the correct Jaeger creation of deployment
-
+```
 kubectl get deployment -n observability
 kubectl get jaegers -n observability
 
@@ -95,3 +95,4 @@ kubectl get deployment,pods,svc  -n observability
 kubectl port-forward -n observability  service/backend-query --address 0.0.0.0 16686:16686
 
 -> Remember to have abailable the port on a vagrant config file
+```
