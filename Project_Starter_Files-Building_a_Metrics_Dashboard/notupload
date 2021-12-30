@@ -1,0 +1,46 @@
+
+$ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+$ chmod 700 get_helm.sh
+$ ./get_helm.sh
+
+kubectl apply -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/master/bundle.yaml
+
+kubectl create namespace monitoring
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo add stable https://charts.helm.sh/stable
+helm repo update
+helm install prometheus prometheus-community/kube-prometheus-stack --namespace monitoring --kubeconfig /etc/rancher/k3s/k3s.yaml
+
+kubectl create namespace observability # <1>
+kubectl create -f https://github.com/jaegertracing/jaeger-operator/releases/download/v1.29.0/jaeger-operator.yaml -n observability # <2>
+
+kubectl create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/cluster_role.yaml
+kubectl create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/cluster_role_binding.yaml
+
+kubectl port-forward -n monitoring prometheus-grafana-6cd544d85d-8447d 30000
+username: admin
+password: prom-operator
+
+
+kubectl port-forward -n prometheus prometheus-prometheus-prometheus-oper-prometheus-0 9090
+kubectl port-forward -n prometheus prometheus-grafana-5c5885d488-b9mlj 3000
+kubectl port-forward -n prometheus prometheus-kube-state-metrics-6967c9fd67-zsw6c 8080
+
+
+prometheus-grafana-5cddc775c4-w4b9g 
+kubectl port-forward -n monitoring prometheus-grafana-5cddc775c4-bf8gc --address 0.0.0.0 3000:3000 
+#kubectl port-forward -n monitoring service/prometheus-grafana --address 0.0.0.0 3000:80 // This is a running example
+
+kubectl port-forward -n monitoring prometheus-grafana-6cd544d85d-sx8zc --address 0.0.0.0 3000:3000
+
+kubectl port-forward svc/frontend-service 8080:8080
+
+kubectl create namespace production
+kubectl apply -f manifests2/mongo
+kubectl apply -f manifests2/app
+kubectl apply -f manifests/app
+kubectl apply -f manifests/jaeger-tracing
+# kubectl apply -f manifests/other // Optionall
+
+
+#Maybe other should not to be applied
