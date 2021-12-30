@@ -1,4 +1,5 @@
 # Process to execute
+```
 Install kubernetes
         curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v1.19.5+k3s1 K3S_KUBECONFIG_MODE="644" sh -
 
@@ -44,6 +45,7 @@ kubectl create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operato
     jaeger-instance
         jaeger.jaegertracing.io/simplest
 
-kubectl port-forward service/simplest-query 16686:16686
+kubectl port-forward service/simplest-query --address  0.0.0.0 16686:16686
 
 simplest-query.default.svc.cluster.local:16686
+```
