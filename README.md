@@ -6,8 +6,9 @@ The  **Exercise_Starter_Files** directory has all of the files you'll need for t
 
 The **Project_Starter_Files** directory has the files you'll need for the project at the end of the course.
 
+------------
 
-### Running kubectl 
+## Running kubectl 
 kubectl --namespace monitoring port-forward svc/prometheus-grafana --address 0.0.0.0 3000:80
 
 kubectl port-forward $(kubectl get pods -l-app="my-sample-app" -o name) 8888:8888
@@ -17,9 +18,11 @@ kubectl port-forward $(kubectl get pods -l-app="my-sample-app" -o name) 8888:888
 This is the guide for installation process on the project
 
 ## 1. Helm instalation
+```
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
 chmod 700 get_helm.sh
 ./get_helm.sh
+```
 
 ## 2. Helm configuration
 ```
