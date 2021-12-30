@@ -1,14 +1,6 @@
 ## Cloud Native Architecture Nanodegree (CNAND): Observability
 
-This is the public repository for the Observability course of Udacity's Cloud Native Architecture Nanodegree (CNAND) program (ND064).
-
-The  **Exercise_Starter_Files** directory has all of the files you'll need for the exercises found throughout the course.
-
-The **Project_Starter_Files** directory has the files you'll need for the project at the end of the course.
-
-------------
-
-## Running kubectl 
+### kubectl port fowarding examples:
 kubectl --namespace monitoring port-forward svc/prometheus-grafana --address 0.0.0.0 3000:80
 
 kubectl port-forward $(kubectl get pods -l-app="my-sample-app" -o name) 8888:8888
@@ -24,7 +16,7 @@ chmod 700 get_helm.sh
 ./get_helm.sh
 ```
 
-## 2. Helm configuration
+## 2. Helm installing prometheus
 ```
 kubectl create namespace monitoring
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
@@ -36,13 +28,6 @@ helm install prometheus prometheus-community/kube-prometheus-stack --namespace m
 ## 3. Install Jeager
 ```
 kubectl create namespace observability
-kubectl create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/crds/jaegertracing.io_jaegers_crd.yaml
-kubectl create -n observability -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/service_account.yaml
-kubectl create -n observability -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/role.yaml
-kubectl create -n observability -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/role_binding.yaml
-kubectl create -n observability -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/operator.yaml
-
-kubectl create namespace observability
 kubectl create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/v1.28.0/deploy/crds/jaegertracing.io_jaegers_crd.yaml
 kubectl create -n observability -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/v1.28.0/deploy/service_account.yaml
 kubectl create -n observability -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/v1.28.0/deploy/role.yaml
@@ -51,22 +36,32 @@ kubectl create -n observability -f https://raw.githubusercontent.com/jaegertraci
 
 ```
 
-## 4. Cluster wide Jeage
+## 4. Cluster wide Jeager
 ```
-kubectl create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/cluster_role.yaml
-kubectl create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/cluster_role_binding.yaml
-
 kubectl create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/v1.28.0/deploy/cluster_role.yaml
 kubectl create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/v1.28.0/deploy/cluster_role_binding.yaml
 
 ```
 
+## 5. Apply other YAML files
+kubectl apply -f manifests/app
+kubectl apply -f manifests/jaeger-tracing
+kubectl create namespace 
+kubectl apply -f manifests2/mongo
+kubectl apply -f manifests2/app
+
+
 kubectl get pod -n monitoring | grep grafana
 > prometheus-grafana-5cddc775c4-w4b9g 
 kubectl port-forward -n monitoring prometheus-grafana-5cddc775c4-bf8gc --address 0.0.0.0 3000:3000
-\#kubectl port-forward -n monitoring service/prometheus-grafana --address 0.0.0.0 3000:80 // This is a running example
+#kubectl port-forward -n monitoring service/prometheus-grafana --address 0.0.0.0 3000:80 // This is a running example
+
+kubectl get -n observability ingress
 
 kubectl port-forward svc/frontend-service 8080:8080
+
+kubectl get deployment jaeger-operator -n observability
+```
 
 # Prometheus querys
 ```
@@ -78,9 +73,6 @@ time() - node_boot_time_seconds{job="node-exporter", instance=~"10.0.2.15:9100"}
 vagrant upload [file] [destination]
 vagrant upload .\manifests 
 
-## Execute the app  manifests
-kubectl apply -f app/
-
 
 ## Creating Jaeger 
 After verify the correct Jaeger creation of deployment
@@ -89,6 +81,7 @@ kubectl get deployment -n observability
 kubectl get jaegers -n observability
 
 kubectl get deployment,pods,svc  -n observability
+
 
 kubectl port-forward -n observability  service/backend-query --address 0.0.0.0 16686:16686
 
