@@ -42,6 +42,7 @@ kubectl create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operato
 kubectl create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/v1.28.0/deploy/cluster_role_binding.yaml
 
 ```
+<<<<<<< HEAD
 
 ## 5. Apply other YAML files
 kubectl apply -f manifests/app
@@ -51,9 +52,14 @@ kubectl apply -f manifests2/mongo
 kubectl apply -f manifests2/app
 
 
+=======
+```
+>>>>>>> 10ba8a95645c366092d9f087e3eddb2b1a3c89f5
 kubectl get pod -n monitoring | grep grafana
+
 > prometheus-grafana-5cddc775c4-w4b9g 
 kubectl port-forward -n monitoring prometheus-grafana-5cddc775c4-bf8gc --address 0.0.0.0 3000:3000
+<<<<<<< HEAD
 #kubectl port-forward -n monitoring service/prometheus-grafana --address 0.0.0.0 3000:80 // This is a running example
 
 kubectl get -n observability ingress
@@ -63,6 +69,13 @@ kubectl port-forward svc/frontend-service 8080:8080
 kubectl get deployment jaeger-operator -n observability
 ```
 
+=======
+
+\#kubectl port-forward -n monitoring service/prometheus-grafana --address 0.0.0.0 3000:80 // This is a running example
+
+kubectl port-forward svc/frontend-service 8080:8080
+```
+>>>>>>> 10ba8a95645c366092d9f087e3eddb2b1a3c89f5
 # Prometheus querys
 ```
 node_boot_time_seconds{container="node-exporter", endpoint="metrics", instance="10.0.2.15:9100", job="node-exporter", namespace="monitoring", pod="prometheus-prometheus-node-exporter-n5tdq", service="prometheus-prometheus-node-exporter"}
@@ -76,7 +89,7 @@ vagrant upload .\manifests
 
 ## Creating Jaeger 
 After verify the correct Jaeger creation of deployment
-
+```
 kubectl get deployment -n observability
 kubectl get jaegers -n observability
 
@@ -86,3 +99,4 @@ kubectl get deployment,pods,svc  -n observability
 kubectl port-forward -n observability  service/backend-query --address 0.0.0.0 16686:16686
 
 -> Remember to have abailable the port on a vagrant config file
+```
