@@ -47,7 +47,7 @@ kubectl create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operato
 ```
 kubectl apply -f manifests/app
 kubectl apply -f manifests/jaeger-tracing
-kubectl create namespace 
+kubectl create namespace production
 kubectl apply -f manifests2/mongo
 kubectl apply -f manifests2/app
 ```
