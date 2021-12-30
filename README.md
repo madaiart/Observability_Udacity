@@ -44,11 +44,13 @@ kubectl create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operato
 ```
 
 ## 5. Apply other YAML files
+```
 kubectl apply -f manifests/app
 kubectl apply -f manifests/jaeger-tracing
 kubectl create namespace 
 kubectl apply -f manifests2/mongo
 kubectl apply -f manifests2/app
+```
 
 
 ```
