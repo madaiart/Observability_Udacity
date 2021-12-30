@@ -64,7 +64,7 @@ tracer = init_tracer('first-service')
 # Home route
 @app.route('/')
 def homepage():
-    return render_template("main.html")
+    # return render_template("main.html")
     with tracer.start_span('get-python-jobs') as span:
         homepages = []
         res = requests.get('https://jobs.github.com/positions.json?description=python')
