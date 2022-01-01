@@ -12,7 +12,11 @@ from opentelemetry.instrumentation.requests import RequestsInstrumentor
 from prometheus_flask_exporter import PrometheusMetrics
 
 
+from prometheus_flask_exporter.multiprocess import GunicornInternalPrometheusMetrics
+
 app = Flask(__name__)
+metrics = GunicornInternalPrometheusMetrics(app)
+
 FlaskInstrumentor().instrument_app(app)
 RequestsInstrumentor().instrument()
 
